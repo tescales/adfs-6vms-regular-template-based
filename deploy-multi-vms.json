@@ -189,10 +189,17 @@
                     "osDisk": {
                         "name": "[concat('osdisk-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
                         "managedDisk": {
-                            "storageAccountType": "Premium_LRS"
+                            "storageAccountType": "Standard_LRS"
                         },
                         "createOption": "FromImage"
-                    }
+                    },
+                    "dataDisks": [
+                        {
+                            "diskSizeGB": 1023,
+                            "lun": 0,
+                            "createOption": "Empty"
+                        }
+                    ]
                 },
                 "networkProfile": {
                     "networkInterfaces": [
