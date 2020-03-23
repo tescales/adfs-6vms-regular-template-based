@@ -383,6 +383,9 @@
           },
           "subnetName": {
             "value": "[parameters('internalSubnetName')]"
+          },
+          "availabilitySetName": {
+            "value": "[variables('availabilitySetNames')[1]]"
           }
         }
       }
