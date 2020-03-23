@@ -390,7 +390,7 @@
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
           },
-          "adminPassword": {
+          "adminPasswordOrKey": {
             "value": "[parameters('adminPassword')]"
           },
           "vmSize": {
