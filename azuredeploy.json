@@ -143,10 +143,17 @@
       "metadata": {
         "description": "The password for the local Administrator account of the virtual machines"
       }
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "The FQDN of the Active Directory Domain to be created"
+      }
     }
   },
   "variables": {
     "baseUrl": "https://raw.githubusercontent.com/tescales/adfs-6vms-regular-template-based/master",
+    "_artifactsLocation": "https://github.com/Azure/azure-quickstart-templates/blob/master/active-directory-new-domain/",
     "storageAccountNamePrefix": "[concat(uniquestring(resourceGroup().id),'sa')]",
     "deployStorageAccountsUrl": "[concat(variables('baseUrl'),'/deployStorageAccounts.json')]",
     "deployPublicIPsUrl": "[concat(variables('baseUrl'),'/deployPublicIPs.json')]",
@@ -196,7 +203,8 @@
     "deployNicsUrl": "[concat(variables('baseUrl'),'/deployNics.json')]",
     "deployNsgsUrl": "[concat(variables('baseUrl'),'/deployNsgs.json')]",
     "deployVmsUrl": "[concat(variables('baseUrl'),'/deployVms.json')]",
-    "deployMultiVmsUrl": "[concat(variables('baseUrl'),'/deploy-multi-vms.json')]"
+    "deployMultiVmsUrl": "[concat(variables('baseUrl'),'/deploy-multi-vms.json')]",
+    "domainJoinOptions": 3
   },
   "resources": [
 
@@ -481,6 +489,70 @@
           "availabilitySetName": {
             "value": "[variables('availabilitySetNames')[2]]"
           }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('addcVmNamePrefix'),padleft(string(copyIndex(1)),2,'0'),'/createDomain')]",
+      "apiVersion": "2019-03-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/addcVmsDeployment"
+      ],
+      "copy": {
+        "name": "createDomain",
+        "count": 2
+      },
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.19",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "ModulesUrl": "[uri(variables('_artifactsLocation'), 'DSC/CreateADPDC.zip')]",
+          "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+          "Properties": {
+            "DomainName": "[parameters('domainName')]",
+            "AdminCreds": {
+              "UserName": "[parameters('adminUsername')]",
+              "Password": "PrivateSettingsRef:AdminPassword"
+            }
+          }
+        },
+        "protectedSettings": {
+          "Items": {
+            "AdminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2019-03-01",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('adfsVmNamePrefix'),padleft(string(copyIndex(1)),2,'0'),'/joindomain')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/adfsVmsDeployment",
+        "createDomain"
+      ],
+      "copy": {
+        "name": "joinDomain",
+        "count": 2
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.3",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "Name": "[parameters('domainName')]",
+          "User": "[concat(parameters('domainName'), '\\', parameters('adminUsername'))]",
+          "Restart": "true",
+          "Options": "[variables('domainJoinOptions')]"
+        },
+        "protectedSettings": {
+          "Password": "[parameters('adminPassword')]"
         }
       }
     }

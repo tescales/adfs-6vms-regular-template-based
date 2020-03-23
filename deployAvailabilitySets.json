@@ -23,6 +23,8 @@
         "name": "Aligned"
       },
       "properties": {
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
       }
     }
   ]
