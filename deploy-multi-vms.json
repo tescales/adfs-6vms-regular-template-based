@@ -178,7 +178,7 @@
                 "storageProfile": {
                     "imageReference": "[variables('imageReference')]",
                     "osDisk": {
-                        "createOption": "Attach"
+                        "createOption": "FromImage"
                     }
                 },
                 "networkProfile": {
