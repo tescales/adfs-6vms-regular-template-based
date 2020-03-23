@@ -385,7 +385,7 @@
             "value": "[parameters('internalSubnetName')]"
           },
           "availabilitySetName": {
-            "value": "[variables('availabilitySetNames')[1]]"
+            "value": "[variables('availabilitySetNames')[0]]"
           }
         }
       }
@@ -394,36 +394,45 @@
       "name": "adfsVmsDeployment",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/virtualNetworkDeployment"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('deployVmsUrl')]",
+          "uri": "[variables('deployMultiVmsUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
           "location": {
             "value": "[parameters('location')]"
           },
+          "virtualMachineName": {
+            "value": "[parameters('adfsVmNamePrefix')]"
+          },
+          "numberOfInstances": {
+            "value": 2
+          },
+          "OS": {
+            "value": "Windows"
+          },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
           },
-          "adminPassword": {
+          "adminPasswordOrKey": {
             "value": "[parameters('adminPassword')]"
-          },
-          "vmNamePrefix": {
-            "value": "[parameters('adfsVmNamePrefix')]"
           },
           "vmSize": {
             "value": "[parameters('adfsVMsSize')]"
           },
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "subnetName": {
+            "value": "[parameters('internalSubnetName')]"
+          },
           "availabilitySetName": {
             "value": "[variables('availabilitySetNames')[1]]"
-          },
-          "vmCount": {
-            "value": 2
-          },
-          "storageAccountNamePrefix": {
-            "value": "[variables('storageAccountNamePrefix')]"
           }
         }
       }
@@ -433,37 +442,44 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
+        "Microsoft.Resources/deployments/virtualNetworkDeployment"
       ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('deployVmsUrl')]",
+          "uri": "[variables('deployMultiVmsUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
           "location": {
             "value": "[parameters('location')]"
           },
+          "virtualMachineName": {
+            "value": "[parameters('wapVmNamePrefix')]"
+          },
+          "numberOfInstances": {
+            "value": 2
+          },
+          "OS": {
+            "value": "Windows"
+          },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
           },
-          "adminPassword": {
+          "adminPasswordOrKey": {
             "value": "[parameters('adminPassword')]"
-          },
-          "vmNamePrefix": {
-            "value": "[parameters('wapVmNamePrefix')]"
           },
           "vmSize": {
             "value": "[parameters('wapVMsSize')]"
           },
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "subnetName": {
+            "value": "[parameters('dmzSubnetName')]"
+          },
           "availabilitySetName": {
             "value": "[variables('availabilitySetNames')[2]]"
-          },
-          "vmCount": {
-            "value": 2
-          },
-          "storageAccountNamePrefix": {
-            "value": "[variables('storageAccountNamePrefix')]"
           }
         }
       }

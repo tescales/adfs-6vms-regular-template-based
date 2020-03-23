@@ -19,10 +19,10 @@
         "name": "avsetCopy",
         "count": 3
       },
+      "sku": {
+        "name": "Aligned"
+      },
       "properties": {
-        "sku": {
-          "name": "Aligned"
-        }
       }
     }
   ]
