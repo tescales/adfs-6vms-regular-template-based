@@ -96,13 +96,6 @@
             "metadata": {
                 "description": "Password for the VMs."
             }
-        },
-        "IPType": {
-            "type": "string",
-            "metadata": {
-                "description": "Set to Static to reserve IP."
-            },
-            "defaultValue": "Dynamic"
         }
     },
     "variables": {
@@ -151,7 +144,7 @@
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAllocationMethod": "[parameters('IPType')]",
+                            "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
                                 "id": "[variables('subnet1Ref')]"
                             }

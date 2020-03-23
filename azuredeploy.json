@@ -195,32 +195,11 @@
     ],
     "deployNicsUrl": "[concat(variables('baseUrl'),'/deployNics.json')]",
     "deployNsgsUrl": "[concat(variables('baseUrl'),'/deployNsgs.json')]",
-    "deployVmsUrl": "[concat(variables('baseUrl'),'/deploy-multi-vms.json')]"
+    "deployVmsUrl": "[concat(variables('baseUrl'),'/deployVms.json')]",
+    "deployMultiVmsUrl": "[concat(variables('baseUrl'),'/deploy-multi-vms.json')]"
   },
   "resources": [
-    {
-      "name": "storageAccountDeployment",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('deployStorageAccountsUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "storageAccountType": {
-            "value": "[parameters('storageAccountType')]"
-          },
-          "storageAccountNamePrefix": {
-            "value": "[variables('storageAccountNamePrefix')]"
-          }
-        }
-      }
-    },
+    
     {
       "name": "publicIpAddressesDeployment",
       "type": "Microsoft.Resources/deployments",
@@ -371,7 +350,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('deployVmsUrl')]",
+          "uri": "[variables('deployMultiVmsUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
