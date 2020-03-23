@@ -86,7 +86,7 @@
       "metadata": {
         "description": "The internal IP address of the ADFS load balancer, this IP address will be statically assigned to the load balancer and must be a valid ip address within the Internal subnet."
       },
-      "defaultValue": "10.0.0.200"
+      "defaultValue": "10.0.0.100"
     },
     "addcVmNamePrefix": {
       "type": "string",
@@ -199,7 +199,7 @@
     "deployMultiVmsUrl": "[concat(variables('baseUrl'),'/deploy-multi-vms.json')]"
   },
   "resources": [
-    
+
     {
       "name": "publicIpAddressesDeployment",
       "type": "Microsoft.Resources/deployments",
@@ -347,6 +347,9 @@
       "name": "addcVmsDeployment",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/virtualNetworkDeployment"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -380,9 +383,6 @@
           },
           "subnetName": {
             "value": "[parameters('internalSubnetName')]"
-          },
-          "IPType": {
-            "value": "Static"
           }
         }
       }

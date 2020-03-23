@@ -1,5 +1,5 @@
 ## Variables
-$resourceGroup = "avidadtest"
+$resourceGroup = "avidtest"
 $location = "westus2"
 $virtualNetworkUsage = "new"
 $adminUsername = "winadmin"
