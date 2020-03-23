@@ -177,7 +177,11 @@
                 },
                 "storageProfile": {
                     "imageReference": "[variables('imageReference')]",
+                    "name": "[concat('osdisk-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
                     "osDisk": {
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS"
+                        },
                         "createOption": "FromImage"
                     }
                 },
