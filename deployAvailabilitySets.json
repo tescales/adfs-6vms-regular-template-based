@@ -16,10 +16,14 @@
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "copy": {
-        "name":"avsetCopy",
+        "name": "avsetCopy",
         "count": 3
       },
-      "properties": {}
+      "properties": {
+        "sku": {
+          "name": "Aligned"
+        }
+      }
     }
   ]
 }
