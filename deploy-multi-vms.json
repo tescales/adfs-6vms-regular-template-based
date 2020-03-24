@@ -138,7 +138,7 @@
 
         {
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat('nic-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
+            "name": "[concat(parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'),'-nic')]",
             "apiVersion": "2016-03-30",
             "location": "[parameters('location')]",
             "copy": {
@@ -187,7 +187,7 @@
                 "storageProfile": {
                     "imageReference": "[variables('imageReference')]",
                     "osDisk": {
-                        "name": "[concat('disk-os-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
+                        "name": "[concat(parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'),'-disk0-os')]",
                         "managedDisk": {
                             "storageAccountType": "Premium_LRS"
                         },
@@ -195,7 +195,7 @@
                     },
                     "dataDisks": [
                         {
-                            "name": "[concat('disk-0-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
+                            "name": "[concat(parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'),'-disk1-data')]",
                             "diskSizeGB": 1023,
                             "lun": 0,
                             "createOption": "Empty"
@@ -205,7 +205,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(concat('nic-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(concat(parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'),'-nic')))]"
                         }
                     ]
                 }
