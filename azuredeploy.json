@@ -93,21 +93,21 @@
       "metadata": {
         "description": "Virtual Machine name prefix for Domain Controllers"
       },
-      "defaultValue": "vm-dc-"
+      "defaultValue": "dc-vm-"
     },
     "adfsVmNamePrefix": {
       "type": "string",
       "metadata": {
         "description": "Virtual Machine name prefix for ADFS servers"
       },
-      "defaultValue": "vm-adfs-"
+      "defaultValue": "adfs-vm-"
     },
     "wapVmNamePrefix": {
       "type": "string",
       "metadata": {
         "description": "Virtual Machine name prefix for WAP servers"
       },
-      "defaultValue": "vm-wap-"
+      "defaultValue": "wap-vm-"
     },
     "addcVMsSize": {
       "type": "string",
@@ -153,7 +153,7 @@
   },
   "variables": {
     "baseUrl": "https://raw.githubusercontent.com/tescales/adfs-6vms-regular-template-based/master",
-    "_artifactsLocation": "https://github.com/Azure/azure-quickstart-templates/blob/master/active-directory-new-domain/",
+    "_artifactsLocation": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/active-directory-new-domain/",
     "storageAccountNamePrefix": "[concat(uniquestring(resourceGroup().id),'sa')]",
     "deployStorageAccountsUrl": "[concat(variables('baseUrl'),'/deployStorageAccounts.json')]",
     "deployPublicIPsUrl": "[concat(variables('baseUrl'),'/deployPublicIPs.json')]",

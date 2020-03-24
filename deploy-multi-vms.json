@@ -187,7 +187,7 @@
                 "storageProfile": {
                     "imageReference": "[variables('imageReference')]",
                     "osDisk": {
-                        "name": "[concat('osdisk-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
+                        "name": "[concat('disk-os-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
                         "managedDisk": {
                             "storageAccountType": "Premium_LRS"
                         },
@@ -195,6 +195,7 @@
                     },
                     "dataDisks": [
                         {
+                            "name": "[concat('disk-0-',parameters('virtualMachineName'),padleft(string(copyIndex(parameters('startNumberingAt'))),parameters('suffixLength'),'0'))]",
                             "diskSizeGB": 1023,
                             "lun": 0,
                             "createOption": "Empty"
